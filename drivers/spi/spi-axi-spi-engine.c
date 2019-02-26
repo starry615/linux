@@ -476,8 +476,10 @@ static bool spi_engine_write_tx_fifo(struct spi_engine *spi_engine)
 	while (n && spi_engine->tx_length) {
 		m = min(n, spi_engine->tx_length);
 		buf = spi_engine->tx_buf;
-		for (i = 0; i < m; i++)
+		for (i = 0; i < m; i++) {
 			spi_engine_write_buff(spi_engine, buf);
+			buf++;
+		}
 		spi_engine->tx_buf += m;
 		spi_engine->tx_length -= m;
 		n -= m;
@@ -497,8 +499,10 @@ static bool spi_engine_read_rx_fifo(struct spi_engine *spi_engine)
 	while (n && spi_engine->rx_length) {
 		m = min(n, spi_engine->rx_length);
 		buf = spi_engine->rx_buf;
-		for (i = 0; i < m; i++)
+		for (i = 0; i < m; i++) {
 			spi_engine_read_buff(spi_engine, buf);
+			buf++;
+		}
 		spi_engine->rx_buf += m;
 		spi_engine->rx_length -= m;
 		n -= m;
